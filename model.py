@@ -1,15 +1,19 @@
 class Empresa:
-    def __init__(self, name, id_string, price = 0, quantity = 0):
+    def __init__(self, name, id_string, price = 0, quantity = 0, compra = false):
         self.name = name
         self.ref_id = id_string
         self.price = price
         self.quantity = quantity
+        self.compra = compra
 
     def setprice(self, new_price):
         self.price = new_price
 
     def setquantity(self, quantity):
         self.quantity = quantity
+        
+    def setcompra(self, compra):
+        self.compra = compra
 
     def incquantity(self, increment):
         self.quantity += increment
@@ -34,6 +38,9 @@ class Empresa:
 
     def getquantity(self):
         return self.quantity
+    
+    def getcompra(self):
+        return self.compra
         
 class Operacao:
     def __init__(self, id_string, desiredprice, desiredquantity, ip = "127.0.0.1", port = 8080):
