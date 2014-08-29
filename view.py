@@ -3,8 +3,9 @@ import main
 import tkinter as tk
 
 class View:
+        
     def __init__(self, main):
-        this.main = main
+        self.main = main
         frame = tk.Tk()
         b_ger = tk.Button(frame)
         b_car = tk.Button(frame)
@@ -12,18 +13,21 @@ class View:
         b_ger.grid(row=0, column=1, sticky = tk.S+tk.E)
         b_car.grid(row=0, column=2, sticky = tk.S+tk.W)
         
-        b_ger['command'] = modegeral
-        b_car['command'] = modecarteira
+        b_ger['command'] = self.modegeral
+        b_car['command'] = self.modecarteira
+        
+        b_ger['text'] = 'Geral'
+        b_car['text'] = 'Carteira'
         
         self.window = frame
 
-        buildgeral()
-        buildcarteira()
+        self.buildgeral()
+        self.buildcarteira()
         
-        modegeral()
+        self.modegeral()
 
-        mainloop()
-        
+        self.window.mainloop()
+    
     def modegeral(self):
         self.carteira.grid_forget()
         self.geral.grid(row=1, column=0, rowspan=7, columnspan=5, sticky = tk.N+tk.S+tk.W+tk.E)
@@ -31,9 +35,10 @@ class View:
     def modecarteira(self):
         self.geral.grid_forget()
         self.carteira.grid(row=1, column=0, rowspan=7, columnspan=5, sticky = tk.N+tk.S+tk.W+tk.E)
+        
 
     def buildgeral(self):
-        geral = tk.Frame(self.frame)
+        geral = tk.Frame(self.window)
         
         g_scroll = tk.Scrollbar(geral)
         g_scroll.pack(side=tk.RIGHT, fill=tk.Y, expand=tk.YES)
@@ -41,56 +46,64 @@ class View:
         listframe = tk.Frame(geral)
         listframe.pack(side=tk.LEFT, fill=tk.BOTH, expand=tk.YES)
         
-        g_list_id = tk.Listbox(listframe, yscrollcommand=tkinter.g_scroll.set, selectmode=tk.SINGLE)
+        g_list_id = tk.Listbox(listframe, yscrollcommand=g_scroll.set, selectmode=tk.SINGLE)
         g_list_id.grid(row=0, column=0, sticky=tk.N+tk.S+tk.E+tk.W)
 
-        g_list_name = tk.Listbox(listframe, yscrollcommand=tkinter.g_scroll.set, selectmode=tk.SINGLE)
+        g_list_name = tk.Listbox(listframe, yscrollcommand=g_scroll.set, selectmode=tk.SINGLE)
         g_list_name.grid(row=0, column=1, sticky=tk.N+tk.S+tk.E+tk.W)
 
-        g_list_price = tk.Listbox(listframe, yscrollcommand=tkinter.g_scroll.set, selectmode=tk.SINGLE)
+        g_list_price = tk.Listbox(listframe, yscrollcommand=g_scroll.set, selectmode=tk.SINGLE)
         g_list_price.grid(row=0, column=2, sticky=tk.N+tk.S+tk.E+tk.W)
 
-        g_scroll.config(command=listframe.yview)
+#        g_scroll.config(command=listframe.yview)
 
         g_listen = tk.Button(geral)
-        g_listen.pack(side=tk.SW)
-        g_listen['command'] = requestlistener
+        g_listen.pack(side=tk.BOTTOM)
+        g_listen['text'] = 'Monitorar'
+        g_listen['command'] = self.requestlistener
 
         g_refresh = tk.Button(geral)
-        g_refresh.pack(side=tk.SE)
-        g_refresh['command'] = refreshgeral
+        g_refresh.pack(side=tk.BOTTOM)
+        g_refresh['text'] = 'refresh'
+        g_refresh['command'] = self.refreshgeral
 
         self.geral = geral
-        self.g_list = {}
+        g_list = {}
 
-        self.g_list['id_g'] = g_list_id
-        self.g_list['name_g'] = g_list_name
-        self.g_list['price_g'] = g_list_price
+        g_list['id_g'] = g_list_id
+        g_list['name_g'] = g_list_name
+        g_list['price_g'] = g_list_price
+        
+        print(g_list)
+        
+        self.g_list = g_list
+        
+        print(self.g_list)
         
         return
 
     def buildcarteira(self):
-        carteira = tk.Frame(self.frame)
+        carteira = tk.Frame(self.window)
         
         c_scroll = tk.Scrollbar(carteira)
         c_scroll.grid(row = 0, column = 4, sticky = tk.N+tk.S+tk.W, rowspan = 6)
 
         listframe = tk.Frame(carteira)
-        listframe.grid(row = 0, column = 1, sticky = tk.N+tk.S+tk.W+tk.E, columnspam = 3, rowspan = 6)
+        listframe.grid(row = 0, column = 1, sticky = tk.N+tk.S+tk.W+tk.E, columnspan = 3, rowspan = 6)
         
-        c_list_id = tk.Listbox(listframe, yscrollcommand=tkinter.g_scroll.set, selectmode=tk.SINGLE)
+        c_list_id = tk.Listbox(listframe, yscrollcommand=c_scroll.set, selectmode=tk.SINGLE)
         c_list_id.grid(row=0, column=0, sticky=tk.N+tk.S+tk.E+tk.W)
 
-        c_list_name = tk.Listbox(listframe, yscrollcommand=tkinter.g_scroll.set, selectmode=tk.SINGLE)
+        c_list_name = tk.Listbox(listframe, yscrollcommand=c_scroll.set, selectmode=tk.SINGLE)
         c_list_name.grid(row=0, column=1, sticky=tk.N+tk.S+tk.E+tk.W)
 
-        c_list_price = tk.Listbox(listframe, yscrollcommand=tkinter.g_scroll.set, selectmode=tk.SINGLE)
+        c_list_price = tk.Listbox(listframe, yscrollcommand=c_scroll.set, selectmode=tk.SINGLE)
         c_list_price.grid(row=0, column=2, sticky=tk.N+tk.S+tk.E+tk.W)
 
-        c_list_quant = tk.Listbox(listframe, yscrollcommand=tkinter.g_scroll.set, selectmode=tk.SINGLE)
-        c_list_quant.grid(row=0, column=2, sticky=tk.N+tk.S+tk.E+tk.W)
+        c_list_quant = tk.Listbox(listframe, yscrollcommand=c_scroll.set, selectmode=tk.SINGLE)
+        c_list_quant.grid(row=0, column=3, sticky=tk.N+tk.S+tk.E+tk.W)
         
-        c_scroll.config(command=listframe.yview)
+#        c_scroll.config(command=listframe.yview)
 
         c_spins = {}
         c_spins['id'] = tk.Spinbox(carteira)
@@ -107,7 +120,7 @@ class View:
         
         g_reg = tk.Button(carteira)
         g_reg.grid(row=7, column=3, sticky = tk.N+tk.S+tk.W+tk.E)
-        g_reg['command'] = registeroperation
+        g_reg['command'] = self.registeroperation
 
         self.carteira = carteira
         self.c_list = {}
@@ -115,7 +128,7 @@ class View:
         self.c_list['id_c'] = c_list_id
         self.c_list['name_c'] = c_list_name
         self.c_list['price_c'] = c_list_price
-        self.c_list['quant_c'] = c_list_price
+        self.c_list['quant_c'] = c_list_quant
         
         self.c_spins = c_spins
         
@@ -125,14 +138,14 @@ class View:
     def notifycompletion(self, operation):
         top = tk.Toplevel()
         
-        info = 'Sua operação de '
+        info = 'Sua operacao de '
         
         if operation.compra:
             info += 'compra'
         else:
             info += 'venda'
         
-        info += ' foi concluída. O montante transacionado foi de ' + opration.quantity + ' a um preço unitário de ' + opration.price
+        info += ' foi concluida. O montante transacionado foi de ' + opration.quantity + ' a um preco unitario de ' + opration.price
         
         msg = Message(top, text=info)
         msg.pack()
@@ -143,22 +156,27 @@ class View:
 
     def updatevalues(self, identifier, value):
         for i in range(self.g_list['id_g'].size()):
-		if(identifier == self.g_list['id_g'].get(i)):
-			self.g_list['price_g'].delete(i)
-			self.g_list['price_g'].insert(i, value)
-			#return 'true'
+            if identifier == self.g_list['id_g'].get(i):
+                self.g_list['price_g'].delete(i)
+                self.g_list['price_g'].insert(i, value)
+		#return 'true'
 	#return 'false'
                 
 
     def refreshgeral(self):
         lista = self.main.updatedlist()
         
-        self.g_list.clear()
+        self.g_list['id_g'].delete(0, tk.END)
+        self.g_list['name_g'].delete(0, tk.END)
+        self.g_list['price_g'].delete(0, tk.END)
         
-        for k, v in lista:
-            self.g_list['id_g'] = k
-            self.g_list['name_g'] = v.name
-            self.g_list['price_g'] = v.price
+        #print(lista)
+        print(self.g_list)
+        
+        for v in lista.values():
+            self.g_list['id_g'].insert(tk.END, v.ref_id)
+            self.g_list['name_g'].insert(tk.END, v.name)
+            self.g_list['price_g'].insert(tk.END, v.price)
         
         return
     
@@ -169,7 +187,7 @@ class View:
             iscompra = self.c_spins['cv'].get() == 'Compra'
             operation = model.Operacao(self.c_spins['id'].get(), iscompra, self.c_spins['price'].get(), self.c_spins['quantity'].get())
             
-            print(operation)
+            print(operation.encodexml())
             
             self.main.addoperation(operation)
             
@@ -178,9 +196,14 @@ class View:
         selected = self.g_list['id_g'].curselection()
         
         if(len(selected) > 0):
-            identifier = selected[0]
-            print(identifier)
-            self.main.listento(identifier)
+            identifier = self.g_list['id_g'].get(tk.ACTIVE)
+            #print(identifier)
+            emp = self.main.listento(identifier)
+            
+            self.c_list['id_c'].insert(tk.END, emp.ref_id)
+            self.c_list['name_c'].insert(tk.END, emp.name)
+            self.c_list['price_c'].insert(tk.END, emp.price)
+            self.c_list['quant_c'].insert(tk.END, emp.quantity)
 
 
     

@@ -4,12 +4,14 @@ class DataManager:
     def __init__(self):
         self.companies = {}
 
-    def addcompanie(self, empresa):
+    def addcompany(self, empresa):
         if isinstance(empresa, model.Empresa):
             self.companies[str(empresa.getid())] = empresa
 
     
     def getcompanie_id(self, identifier):
-        return self.companies[str(identifier)]
-
+        try:
+            return self.companies[str(identifier)]
+        except:
+            return None
     

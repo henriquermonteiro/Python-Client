@@ -2,14 +2,14 @@ class Empresa:
     def __init__(self, name, id_string, price = 0, quantity = 0):
         self.name = name
         self.ref_id = id_string
-        self.price = price
-        self.quantity = quantity
+        self.price = MutableValue(price)
+        self.quantity = MutableValue(quantity)
 
     def setprice(self, new_price):
-        self.price = new_price
+        self.price.val = new_price
 
     def setquantity(self, quantity):
-        self.quantity = quantity
+        self.quantity.val = quantity
 
     def incquantity(self, increment):
         self.quantity += increment
@@ -30,10 +30,15 @@ class Empresa:
         return self.ref_id
 
     def getprice(self):
-        return self.price
+        return self.price.val
 
     def getquantity(self):
-        return self.quantity
+        return self.quantity.bal
+    
+    def encodexml(self):
+        enc = '<Empresa><name>' + self.name + '</name><ID>' + self.ref_id + '</ID><value>' + str(self.price) + '</value></Empresa>'
+        
+        return enc
         
 class Operacao:
     def __init__(self, id_string, compra, desiredprice, desiredquantity, ip = "127.0.0.1", port = 8080):
@@ -55,5 +60,21 @@ class Operacao:
         
     def setcompra(self, compra):
         self.compra = compra
+        
+    def encodexml(self):
+        enc = '<Operacao><companyID>' + self.ref_id + '</companyID><isCompra>' + str(self.compra) + '</isCompra><quantidade>' + str(self.quantity) + '</quantidade>'
+        enc += '<precoUnitarioDesejado>' + str(self.price) + '</precoUnitarioDesejado><IP>' + self.ip + '</IP><porta>' + str(self.port) + '</porta>'
+        enc += '<expireDate></expireDate></Operacao>'
+        
+        return enc
 
     
+class MutableValue:
+    def __init__(self, val):
+        self.val = val
+
+    def __str__(self):
+        return str(self.val)
+    
+    def __repr__(self):
+        return str(self.val)
