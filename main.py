@@ -28,7 +28,7 @@ class Controller:
             
             self.manager.addcompany(emp)
             
-        self.comunic.request_listento(emp, self.server.host, server.server.port)
+        self.comunic.request_listento(emp, self.server.host, self.server.port)
         
         print(identifier)
         return emp

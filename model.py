@@ -36,7 +36,7 @@ class Empresa:
         return self.quantity.bal
     
     def encodexml(self):
-        enc = '<Empresa><name>' + self.name + '</name><ID>' + self.ref_id + '</ID><value>' + str(self.price) + '</value></Empresa>'
+        enc = '<empresa><name>' + self.name + '</name><ID>' + self.ref_id + '</ID><value>' + str(self.price) + '</value></empresa>'
         
         return enc
         
@@ -62,9 +62,9 @@ class Operacao:
         self.compra = compra
         
     def encodexml(self):
-        enc = '<Operacao><companyID>' + self.ref_id + '</companyID><isCompra>' + str(self.compra) + '</isCompra><quantidade>' + str(self.quantity) + '</quantidade>'
+        enc = '<operacao><companyID>' + self.ref_id + '</companyID><isCompra>' + str(self.compra) + '</isCompra><quantidade>' + str(self.quantity) + '</quantidade>'
         enc += '<precoUnitarioDesejado>' + str(self.price) + '</precoUnitarioDesejado><IP>' + self.ip + '</IP><porta>' + str(self.port) + '</porta>'
-        enc += '<expireDate></expireDate></Operacao>'
+        enc += '</operacao>'
         
         return enc
 

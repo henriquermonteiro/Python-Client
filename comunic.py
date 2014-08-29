@@ -2,10 +2,14 @@
 import model
 import urllib.request as urllib2
 import xml.dom.minidom as minidom
+import http.client as httplib
 
 class Comunicacao:
     def __init__(self):
-        self.url = 'http://localhost:8080/bolsa_web/rest/bolsa/'
+        self.host = 'http://localhost:8080'
+        self.path = '/bolsa_web/rest/bolsa/'
+        
+        self.url = self.host+self.path
 
 
     def request_addoperation(self, operation):
@@ -88,12 +92,24 @@ class Comunicacao:
 
 
     def request_listento(self, empresa, ip, port):
-        ur = self.url + 'registrar'
-        req = urlib2.Request(ur, data=(empresa.encodexml() + '<Reference><ip>'+ip + '</ip><port>' + port + '</port></Reference>'), headers={'Content-Type': 'application/xml'})
-        run = urllib2.urlopen(req)
+        ur = self.url + 'escutar'
         
-        if run.status < 300:
-            content = run.read()
+        conn = httplib.HTTPConnection('127.0.0.1:8080')
+        XML = ('<wrapper>' + empresa.encodexml() + '<reference><ip>'+ip + '</ip><port>' + str(port) + '</port></reference></wrapper>')
+        headers = {"Content-type": "application/xml"}
+        conn.request("POST", self.path+'escutar', XML, headers)
+        print(XML)
+       # conn.send(bytes(XML, 'UTF-8'))
+        
+        run = conn.getresponse()
+        
+        print(run.status)
+        
+        #req = urllib2.Request(ur, data=().encode(encoding='UTF-8'), headers={'Content-Type': 'application/xml'})
+     #   run = urllib2.urlopen(req)
+        
+     #   if run.status < 300:
+     #       content = run.read()
 
 # Foi para server.py
 #    def service_complete(self, operation):
