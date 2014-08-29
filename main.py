@@ -12,7 +12,8 @@ class Controller:
         self.server = server.Server(self)
         print('Server Started')
         print(self.server.host,' - ',self.server.port)
-        self.view = view.View(self)
+        self.view_ = view.View(self)
+        self.view_.start()
 
 #view chama o main para repassar para comunic
     def addoperation(self, operation):
@@ -36,18 +37,21 @@ class Controller:
     def updatedlist(self):
         return self.comunic.request_companieslist()
 
+    def notifyupdate(self, identifier, value):
+        print(identifier + " updated!!")
+        self.manager.getcompanie_id(identifier).price = value
+        self.view_.updatevalues(identifier, value)
+
+    def notifycompletion(self, operation):
+        self.view_.notifycompletion(operation)
+
+    
 
 #Sei la ....
 #    def updateview(self):
 
 
 #Comunic chama o main para repassar para a view
-    def notifyupdate(self, identifier, value):
-        self.view.updatevalues(identifier, value)
-
-    def notifycompletion(self, operation):
-        self.view.notifycompletion(operation)
-
     
 if __name__ == "__main__":
     Controller()

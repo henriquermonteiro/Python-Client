@@ -8,6 +8,8 @@ import socket
 import main
 from model import Operacao
 
+instance = None
+
 class Server():
     def __init__(self, main):
         self.main = main
@@ -16,6 +18,9 @@ class Server():
         self.host = socket.gethostbyname(socket.gethostname())
 
         self.httpd = server_http.HTTPServer((self.host, self.port), Handler)
+        
+        global instance
+        instance = main
         
         _thread.start_new_thread(self.start, ())
     def start(self):
@@ -39,12 +44,22 @@ class Handler(server_http.BaseHTTPRequestHandler):
     
     def do_POST(self):
         print('Call Post')
-        variables = self.parse_POST()
-        if s.path == "/update/":
-            self.main.notifyupdate(variables['id'], variables['value'])
+ #       variables = self.parse_POST()
+ #       print(variables)
+        global instance
+        if self.path.startswith("/update/"):
+            fields = self.path.split(';')
+            print(fields)
+            instance.notifyupdate(fields[1].split("$")[1], fields[2].split("$")[1])
+            
+            self.send_response(200)
 
-        if s.path == "/complete/":
-            op = Operacao(variables['id'], variables['compra'], variables['price'], variables['quantity'])
-            self.main.notifycompletion(op)
+        if self.path.startswith("/complete/"):
+            fields = self.path.split(';')
+            print(fields)
+            op = Operacao(fields[1].split('$')[1], fields[2].split('$')[1], fields[3].split('$')[1], fields[4].split('$')[1])
+            instance.notifycompletion(op)
+            
+            self.send_response(200)
 
     

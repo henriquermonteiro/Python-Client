@@ -25,7 +25,8 @@ class View:
         self.buildcarteira()
         
         self.modegeral()
-
+    
+    def start(self):
         self.window.mainloop()
     
     def modegeral(self):
@@ -121,6 +122,7 @@ class View:
         g_reg = tk.Button(carteira)
         g_reg.grid(row=7, column=3, sticky = tk.N+tk.S+tk.W+tk.E)
         g_reg['command'] = self.registeroperation
+        g_reg['text'] = 'Registrar'
 
         self.carteira = carteira
         self.c_list = {}
@@ -159,6 +161,12 @@ class View:
             if identifier == self.g_list['id_g'].get(i):
                 self.g_list['price_g'].delete(i)
                 self.g_list['price_g'].insert(i, value)
+                break
+                
+        for i in range(self.c_list['id_c'].size()):
+            if identifier == self.c_list['id_c'].get(i):
+                self.c_list['price_c'].delete(i)
+                self.c_list['price_c'].insert(i, value)
 		#return 'true'
 	#return 'false'
                 
@@ -204,6 +212,21 @@ class View:
             self.c_list['name_c'].insert(tk.END, emp.name)
             self.c_list['price_c'].insert(tk.END, emp.price)
             self.c_list['quant_c'].insert(tk.END, emp.quantity)
-
+            
+            ax = (emp.ref_id)
+            
+            t1 = self.c_spins['id']['values']
+            print(t1)
+            print(len(t1))
+            if type(t1) == str:
+                if(len(t1)) == 0:
+                    t = (ax, )
+                else:
+                    t = t1.split(' ') + [ ax ]
+            else:
+                t = t1 + (ax, )
+            print(t)
+            print(len(t))
+            self.c_spins['id']['values'] = t
 
     
