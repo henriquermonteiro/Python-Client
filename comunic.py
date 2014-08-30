@@ -17,7 +17,7 @@ class Comunicacao:
     # Requisicao para registrar uma nova operacao de compra ou venda
     def request_addoperation(self, operation):
         ur = self.url + 'registrar'
-        req = urlib2.Request(ur, data=operation.encodexml(), headers={'Content-Type': 'application/xml'})
+        req = urllib2.Request(ur, data=operation.encodexml(), headers={'Content-Type': 'application/xml'})
         run = urllib2.urlopen(req)
         
         if run.status < 300:
