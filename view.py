@@ -2,8 +2,10 @@ import model
 import main
 import tkinter as tk
 
+# Classe para a interface grafica
 class View:
         
+    # Inicializacao
     def __init__(self, main):
         self.main = main
         frame = tk.Tk()
@@ -26,18 +28,25 @@ class View:
         
         self.modegeral()
     
+    
+    # Inicia a janela
     def start(self):
         self.window.mainloop()
     
+    
+    # Evidenciar a janela "Geral" 
     def modegeral(self):
         self.carteira.grid_forget()
         self.geral.grid(row=1, column=0, rowspan=7, columnspan=5, sticky = tk.N+tk.S+tk.W+tk.E)
         
+        
+    # Evidenciar a janela "Carteira"
     def modecarteira(self):
         self.geral.grid_forget()
         self.carteira.grid(row=1, column=0, rowspan=7, columnspan=5, sticky = tk.N+tk.S+tk.W+tk.E)
         
-
+        
+    # Construcao da janela "Geral"
     def buildgeral(self):
         geral = tk.Frame(self.window)
         
@@ -83,6 +92,8 @@ class View:
         
         return
 
+
+    # Construcao da janela "Carteira"
     def buildcarteira(self):
         carteira = tk.Frame(self.window)
         
@@ -137,6 +148,7 @@ class View:
         return
         
         
+    # Mensagem de uma operacao realizada    
     def notifycompletion(self, operation):
         top = tk.Toplevel()
         
@@ -155,7 +167,8 @@ class View:
         button = Button(top, text="Dismiss", command=top.destroy)
         button.pack()
         
-
+        
+    # Atualizacao dos valores de cada acao
     def updatevalues(self, identifier, value):
         for i in range(self.g_list['id_g'].size()):
             if identifier == self.g_list['id_g'].get(i):
@@ -170,7 +183,8 @@ class View:
 		#return 'true'
 	#return 'false'
                 
-
+                
+    # Atualizar janela
     def refreshgeral(self):
         lista = self.main.updatedlist()
         
@@ -189,7 +203,7 @@ class View:
         return
     
     
-
+    # Enviar registro de uma nova operacao
     def registeroperation(self):
         if self.c_spins['id'].get() != '' and self.c_spins['quantity'].get() != 0 and self.c_spins['price'].get() != 0:
             iscompra = self.c_spins['cv'].get() == 'Compra'
@@ -200,6 +214,7 @@ class View:
             self.main.addoperation(operation)
             
 
+    # Enviar pedido para receber atualizacoes de uma determinada empresa
     def requestlistener(self):
         selected = self.g_list['id_g'].curselection()
         
