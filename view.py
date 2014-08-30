@@ -205,9 +205,9 @@ class View:
     
     # Enviar registro de uma nova operacao
     def registeroperation(self):
-        if self.c_spins['id'].get() != '' and self.c_spins['quantity'].get() != 0 and self.c_spins['price'].get() != 0:
+        if self.c_spins['id'].get() != '' and self.c_spins['quant'].get() != 0 and self.c_spins['price'].get() != 0:
             iscompra = self.c_spins['cv'].get() == 'Compra'
-            operation = model.Operacao(self.c_spins['id'].get(), iscompra, self.c_spins['price'].get(), self.c_spins['quantity'].get())
+            operation = model.Operacao(self.c_spins['id'].get(), iscompra, self.c_spins['price'].get(), self.c_spins['quant'].get())
             
             print(operation.encodexml())
             
