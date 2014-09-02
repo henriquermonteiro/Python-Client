@@ -6,7 +6,7 @@ import http.client as httplib
 
 class Comunicacao:
     def __init__(self):
-        self.host = 'http://localhost:8080'
+        self.host = 'http://localhost:8084'
         self.path = '/bolsa_web/rest/bolsa/'
         
         self.url = self.host+self.path
@@ -22,7 +22,7 @@ class Comunicacao:
 #            
         ur = self.url + 'registrar'
         
-        conn = httplib.HTTPConnection('127.0.0.1:8080')
+        conn = httplib.HTTPConnection('127.0.0.1:8084')
         XML = operation.encodexml()
         headers = {"Content-type": "application/xml"}
         conn.request("POST", self.path+'registrar', XML, headers)
@@ -107,7 +107,7 @@ class Comunicacao:
     def request_listento(self, empresa, ip, port):
         ur = self.url + 'escutar'
         
-        conn = httplib.HTTPConnection('127.0.0.1:8080')
+        conn = httplib.HTTPConnection('127.0.0.1:8084')
         XML = ('<wrapper>' + empresa.encodexml() + '<reference><ip>'+ip + '</ip><port>' + str(port) + '</port></reference></wrapper>')
         headers = {"Content-type": "application/xml"}
         conn.request("POST", self.path+'escutar', XML, headers)

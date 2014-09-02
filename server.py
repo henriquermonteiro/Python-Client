@@ -8,7 +8,7 @@ import socket
 import main
 from model import Operacao
 
-instance = None
+instance = {}
 
 class Server():
     def __init__(self, main):
@@ -20,7 +20,7 @@ class Server():
         self.httpd = server_http.HTTPServer((self.host, self.port), Handler)
         
         global instance
-        instance = main
+        instance[self.port] = main
         
         _thread.start_new_thread(self.start, ())
     def start(self):
@@ -50,7 +50,7 @@ class Handler(server_http.BaseHTTPRequestHandler):
         if self.path.startswith("/update/"):
             fields = self.path.split(';')
             print(fields)
-            instance.notifyupdate(fields[1].split("$")[1], fields[2].split("$")[1])
+            instance[self.server.server_address[1]].notifyupdate(fields[1].split("$")[1], fields[2].split("$")[1])
             
             self.send_response(200)
 
@@ -58,7 +58,7 @@ class Handler(server_http.BaseHTTPRequestHandler):
             fields = self.path.split(';')
             print(fields)
             op = Operacao(fields[1].split('$')[1], fields[2].split('$')[1], fields[3].split('$')[1], fields[4].split('$')[1])
-            instance.notifycompletion(op)
+            instance[self.server.server_address[1]].notifycompletion(op)
             
             print('Finishing')
             

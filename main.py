@@ -39,7 +39,7 @@ class Controller:
         operation.ip = self.server.host
         operation.port = self.server.port
         
-        if not operation.compra and self.manager.getcompanie_id(operation.ref_id) < operation.quantity:
+        if not operation.compra and self.manager.getcompanie_id(operation.ref_id).quantity.val < int(operation.quantity):
             return False
         
         self.comunic.request_addoperation(operation)
@@ -69,6 +69,13 @@ class Controller:
     def notifycompletion(self, operation):
         print('Notify completion')
         self.view_.notifycompletion(operation)
+        
+        if operation.compra == 'true':
+            self.manager.getcompanie_id(operation.ref_id).incquantity(operation.quantity)
+        else:
+            self.manager.getcompanie_id(operation.ref_id).incquantity(int(operation.quantity) * (-1))
+            
+        print(self.manager.getcompanie_id(operation.ref_id).quantity)
 
     
 

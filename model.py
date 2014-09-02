@@ -9,13 +9,13 @@ class Empresa:
         self.price.val = new_price
 
     def setquantity(self, quantity):
-        self.quantity.val = quantity
+        self.quantity.val = int(quantity)
 
     def incquantity(self, increment):
-        self.quantity += increment
+        self.quantity.val += int(increment)
 
-        if(self.quantity < 0):
-            self.quantity = 0 - self.quantity
+        if(self.quantity.val < 0):
+            self.quantity.val = 0 - self.quantity.val
 
     def incprice(self, increment):
         self.price += increment
