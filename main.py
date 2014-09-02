@@ -1,4 +1,5 @@
 import model
+import random as rd
 import server
 import manager
 import comunic
@@ -13,14 +14,37 @@ class Controller:
         print('Server Started')
         print(self.server.host,' - ',self.server.port)
         self.view_ = view.View(self)
+        self.simulate()
+        self.view_.refreshgeral()
         self.view_.start()
+        
+    def simulate(self):
+        lista = self.updatedlist()
+        
+        el = rd.randint(0, len(lista))
+        c = 0
+        
+        for v in lista.values():
+            if c == el:
+                self.manager.addcompany(v)
+                self.manager.getcompanie_id(v.ref_id).setquantity(rd.randint(2, 10))
+                self.view_.requestlistener_(v)
+                self.listento(v.ref_id)
+                break
+            c = c + 1
+        
 
 #view chama o main para repassar para comunic
     def addoperation(self, operation):
         operation.ip = self.server.host
         operation.port = self.server.port
         
+        if not operation.compra and self.manager.getcompanie_id(operation.ref_id) < operation.quantity:
+            return False
+        
         self.comunic.request_addoperation(operation)
+        
+        return True
 
     def listento(self, identifier):
         emp = self.manager.getcompanie_id(identifier)

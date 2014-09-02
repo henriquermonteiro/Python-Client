@@ -192,11 +192,13 @@ class View:
     def registeroperation(self):
         if self.c_spins['id'].get() != '' and self.c_spins['quant'].get() != 0 and self.c_spins['price'].get() != 0:
             iscompra = self.c_spins['cv'].get() == 'Compra'
+            
             operation = model.Operacao(self.c_spins['id'].get(), iscompra, self.c_spins['price'].get(), self.c_spins['quant'].get())
             
             print(operation.encodexml())
             
-            self.main.addoperation(operation)
+            if not self.main.addoperation(operation):
+                message.showinfo(title='Operacao nao pode ser cadastrada', message='E possivel que nao haja acoes suficientes para realizar esta operacao.')
             
 
     def requestlistener(self):
@@ -227,5 +229,29 @@ class View:
             print(t)
             print(len(t))
             self.c_spins['id']['values'] = t
+            
+    
+    def requestlistener_(self, emp):
+            
+        self.c_list['id_c'].insert(tk.END, emp.ref_id)
+        self.c_list['name_c'].insert(tk.END, emp.name)
+        self.c_list['price_c'].insert(tk.END, emp.price)
+        self.c_list['quant_c'].insert(tk.END, emp.quantity)
+        
+        ax = (emp.ref_id)
+            
+        t1 = self.c_spins['id']['values']
+        print(t1)
+        print(len(t1))
+        if type(t1) == str:
+            if(len(t1)) == 0:
+                t = (ax, )
+            else:
+                t = t1.split(' ') + [ ax ]
+        else:
+            t = t1 + (ax, )
+        print(t)
+        print(len(t))
+        self.c_spins['id']['values'] = t
 
     
