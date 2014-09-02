@@ -1,5 +1,3 @@
-
-# Classe Empresa
 class Empresa:
     def __init__(self, name, id_string, price = 0, quantity = 0):
         self.name = name
@@ -41,9 +39,7 @@ class Empresa:
         enc = '<empresa><name>' + self.name + '</name><ID>' + self.ref_id + '</ID><value>' + str(self.price) + '</value></empresa>'
         
         return enc
-
-
-# Classe Operacao        
+        
 class Operacao:
     def __init__(self, id_string, compra, desiredprice, desiredquantity, ip = "127.0.0.1", port = 8080):
         self.ref_id = id_string
@@ -67,13 +63,12 @@ class Operacao:
         
     def encodexml(self):
         enc = '<operacao><companyID>' + self.ref_id + '</companyID><isCompra>' + str(self.compra) + '</isCompra><quantidade>' + str(self.quantity) + '</quantidade>'
-        enc += '<precoUnitarioDesejado>' + str(self.price) + '</precoUnitarioDesejado><IP>' + self.ip + '</IP><porta>' + str(self.port) + '</porta>'
+        enc += '<preco>' + str(int(self.price)) + '</preco><referencia><ip>' + self.ip + '</ip><port>' + str(self.port) + '</port></referencia>'
         enc += '</operacao>'
         
         return enc
 
-
-# Classe para manipular atualizacao dos valores
+    
 class MutableValue:
     def __init__(self, val):
         self.val = val

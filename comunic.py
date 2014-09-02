@@ -4,26 +4,35 @@ import urllib.request as urllib2
 import xml.dom.minidom as minidom
 import http.client as httplib
 
-# Classe responsavel pelas comunicacoes
 class Comunicacao:
-    
-    # Inicializacao com o caminho URL do server
     def __init__(self):
         self.host = 'http://localhost:8080'
         self.path = '/bolsa_web/rest/bolsa/'
         
         self.url = self.host+self.path
 
-    # Requisicao para registrar uma nova operacao de compra ou venda
+
     def request_addoperation(self, operation):
+#        ur = self.url + 'registrar'
+#        req = urllib2.Request(ur, data=operation.encodexml(), headers={'Content-Type': 'application/xml'})
+#        run = urllib2.urlopen(req)
+#        
+#        if run.status < 300:
+#            content = run.read()
+#            
         ur = self.url + 'registrar'
-        req = urllib2.Request(ur, data=operation.encodexml(), headers={'Content-Type': 'application/xml'})
-        run = urllib2.urlopen(req)
         
-        if run.status < 300:
-            content = run.read()
+        conn = httplib.HTTPConnection('127.0.0.1:8080')
+        XML = operation.encodexml()
+        headers = {"Content-type": "application/xml"}
+        conn.request("POST", self.path+'registrar', XML, headers)
+        print(XML)
+       # conn.send(bytes(XML, 'UTF-8'))
+        
+        run = conn.getresponse()
+        
+        print(run.status)
             
-    # Requisicao para retornar uma empresa cadastrada no servidor, atraves do seu ID
     def getcompany_id(self, ide):
         url = self.url + ide
         response = urllib2.urlopen(url)
@@ -56,7 +65,7 @@ class Comunicacao:
         
         return None
         
-    # Requisicao da lista de empresas disponiveis no server
+
     def request_companieslist(self):
         url = self.url + 'lista'
         response = urllib2.urlopen(url)
@@ -94,7 +103,7 @@ class Comunicacao:
         
         return {}
 
-    # Requisicao que registra um novo ouvinte a uma determinada empresa
+
     def request_listento(self, empresa, ip, port):
         ur = self.url + 'escutar'
         

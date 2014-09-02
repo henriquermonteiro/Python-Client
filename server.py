@@ -10,10 +10,7 @@ from model import Operacao
 
 instance = None
 
-# Classe para receber mensagens do server
 class Server():
-    
-    # Inicializacao
     def __init__(self, main):
         self.main = main
         
@@ -26,17 +23,14 @@ class Server():
         instance = main
         
         _thread.start_new_thread(self.start, ())
-        
-    # Inicia a thread
     def start(self):
         print('Will call')
         self.httpd.serve_forever()
         print('Stop')
         
-# Classe de manipulacao do metodo POST
-class Handler(server_http.BaseHTTPRequestHandler):
     
-    # Preparacao de tipos de conteudo
+
+class Handler(server_http.BaseHTTPRequestHandler):
     def parse_POST(self):
         ctype, pdict = parse_header(self.headers['content-type'])
         if ctype == 'multipart/form-data':
@@ -48,7 +42,6 @@ class Handler(server_http.BaseHTTPRequestHandler):
             postvars = {}
         return postvars
     
-    # Metodo para notificar opercao realizada e atualizacao de valores de uma acao
     def do_POST(self):
         print('Call Post')
  #       variables = self.parse_POST()
@@ -66,6 +59,8 @@ class Handler(server_http.BaseHTTPRequestHandler):
             print(fields)
             op = Operacao(fields[1].split('$')[1], fields[2].split('$')[1], fields[3].split('$')[1], fields[4].split('$')[1])
             instance.notifycompletion(op)
+            
+            print('Finishing')
             
             self.send_response(200)
 

@@ -5,7 +5,6 @@ import comunic
 import view
 
 class Controller:
-    # Inicializacao
     def __init__(self):
         self.manager = manager.DataManager()
         self.comunic = comunic.Comunicacao()
@@ -16,14 +15,13 @@ class Controller:
         self.view_ = view.View(self)
         self.view_.start()
 
-    # Registra uma nova operacao de compra ou venda
+#view chama o main para repassar para comunic
     def addoperation(self, operation):
         operation.ip = self.server.host
         operation.port = self.server.port
         
         self.comunic.request_addoperation(operation)
 
-    # Metodo que registra um novo ouvinte a uma determinada empresa
     def listento(self, identifier):
         emp = self.manager.getcompanie_id(identifier)
         if(emp is None):
@@ -36,22 +34,25 @@ class Controller:
         print(identifier)
         return emp
 
-    # Atualiza a lista das empresas
     def updatedlist(self):
         return self.comunic.request_companieslist()
 
-    # Recebe notificacao de atualizacao dos valores da acao de uma empresa
     def notifyupdate(self, identifier, value):
         print(identifier + " updated!!")
         self.manager.getcompanie_id(identifier).price = value
         self.view_.updatevalues(identifier, value)
 
-    # Recebe notificacao de operacao realizada
     def notifycompletion(self, operation):
+        print('Notify completion')
         self.view_.notifycompletion(operation)
 
+    
 
-# Inicializacao
+#Sei la ....
+#    def updateview(self):
+
+
+#Comunic chama o main para repassar para a view
     
 if __name__ == "__main__":
     Controller()
