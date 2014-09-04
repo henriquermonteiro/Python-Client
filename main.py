@@ -1,5 +1,6 @@
 import model
 import random as rd
+import _thread
 import server
 import manager
 import comunic
@@ -42,7 +43,7 @@ class Controller:
         if not operation.compra and self.manager.getcompanie_id(operation.ref_id).quantity.val < int(operation.quantity):
             return False
         
-        self.comunic.request_addoperation(operation)
+        _thread.start_new_thread(self.comunic.request_addoperation , (operation, ))
         
         return True
 
@@ -68,13 +69,14 @@ class Controller:
 
     def notifycompletion(self, operation):
         print('Notify completion')
-        self.view_.notifycompletion(operation)
         
         if operation.compra == 'true':
             self.manager.getcompanie_id(operation.ref_id).incquantity(operation.quantity)
         else:
             self.manager.getcompanie_id(operation.ref_id).incquantity(int(operation.quantity) * (-1))
             
+        self.view_.notifycompletion(operation)
+        
         print(self.manager.getcompanie_id(operation.ref_id).quantity)
 
     

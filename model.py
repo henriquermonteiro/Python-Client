@@ -33,7 +33,7 @@ class Empresa:
         return self.price.val
 
     def getquantity(self):
-        return self.quantity.bal
+        return self.quantity.val
     
     def encodexml(self):
         enc = '<empresa><name>' + self.name + '</name><ID>' + self.ref_id + '</ID><value>' + str(self.price) + '</value></empresa>'
@@ -56,7 +56,7 @@ class Operacao:
         self.quantity = new_quantity
     
     def getcompra(self):
-        return self.compra
+        return self.compra == "true"
         
     def setcompra(self, compra):
         self.compra = compra

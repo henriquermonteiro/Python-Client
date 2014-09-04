@@ -143,7 +143,7 @@ class View:
         
         info = 'Sua operacao de '
         
-        if operation.compra:
+        if operation.getcompra():
             info += 'compra'
         else:
             info += 'venda'
@@ -151,6 +151,13 @@ class View:
         info += ' foi concluida. O montante transacionado foi de ' + operation.quantity + ' a um preco unitario de ' + operation.price
         
         print(info)
+        
+        emp = self.main.manager.getcompanie_id(operation.ref_id)
+        
+        for i in range(self.c_list['id_c'].size()):
+            if emp.ref_id == self.c_list['id_c'].get(i):
+                self.c_list['quant_c'].delete(i)
+                self.c_list['quant_c'].insert(i, emp.getquantity())
         
         message.showinfo(title='Operacao completada', message=info)
         

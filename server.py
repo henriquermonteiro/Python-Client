@@ -20,7 +20,8 @@ class Server():
         self.httpd = server_http.HTTPServer((self.host, self.port), Handler)
         
         global instance
-        instance[self.port] = main
+        instance[self.httpd.server_address[1]] = main
+        print(self.httpd.server_address[1])
         
         _thread.start_new_thread(self.start, ())
     def start(self):
@@ -60,8 +61,12 @@ class Handler(server_http.BaseHTTPRequestHandler):
             op = Operacao(fields[1].split('$')[1], fields[2].split('$')[1], fields[3].split('$')[1], fields[4].split('$')[1])
             instance[self.server.server_address[1]].notifycompletion(op)
             
+            print(self.server.server_address[1])
             print('Finishing')
             
             self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
+            
 
     
