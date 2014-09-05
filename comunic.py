@@ -4,6 +4,7 @@ import urllib.request as urllib2
 import xml.dom.minidom as minidom
 import http.client as httplib
 
+# Classe de comunicação do o Servidor
 class Comunicacao:
     def __init__(self):
       #  self.host = 'http://localhost:8084'
@@ -12,15 +13,9 @@ class Comunicacao:
         
         self.url = self.host+self.path
 
-
+    # Envio de requisição de transação
     def request_addoperation(self, operation):
-#        ur = self.url + 'registrar'
-#        req = urllib2.Request(ur, data=operation.encodexml(), headers={'Content-Type': 'application/xml'})
-#        run = urllib2.urlopen(req)
-#        
-#        if run.status < 300:
-#            content = run.read()
-#            
+     
         ur = self.url + 'registrar'
         
     #    conn = httplib.HTTPConnection('127.0.0.1:8084')
@@ -35,6 +30,7 @@ class Comunicacao:
         
         print(run.status)
             
+    # Envio de requisição de recuperação dos dados de uma empresa        
     def getcompany_id(self, ide):
         url = self.url + ide
         response = urllib2.urlopen(url)
@@ -67,7 +63,7 @@ class Comunicacao:
         
         return None
         
-
+    # Envio de requisição de todas as empresas
     def request_companieslist(self):
         url = self.url + 'lista'
         response = urllib2.urlopen(url)
@@ -105,7 +101,7 @@ class Comunicacao:
         
         return {}
 
-
+    # Envio de requisição de monitoramento dos valores das ações de uma empresa
     def request_listento(self, empresa, ip, port):
         ur = self.url + 'escutar'
         
@@ -120,17 +116,4 @@ class Comunicacao:
         run = conn.getresponse()
         
         print(run.status)
-        
-        #req = urllib2.Request(ur, data=().encode(encoding='UTF-8'), headers={'Content-Type': 'application/xml'})
-     #   run = urllib2.urlopen(req)
-        
-     #   if run.status < 300:
-     #       content = run.read()
-
-# Foi para server.py
-#    def service_complete(self, operation):
-
-
-#    def service_update(self, identifier, new_value):
-
         

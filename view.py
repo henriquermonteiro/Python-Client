@@ -41,7 +41,7 @@ class View:
         self.geral.grid_forget()
         self.carteira.grid(row=1, column=0, rowspan=7, columnspan=5, sticky = tk.N+tk.S+tk.W+tk.E)
         
-    # 
+    # Construção da tela Geral
     def buildgeral(self):
         geral = tk.Frame(self.window)
         
@@ -87,6 +87,7 @@ class View:
         
         return
 
+    # Construção da tela Carteira
     def buildcarteira(self):
         carteira = tk.Frame(self.window)
         
@@ -140,7 +141,7 @@ class View:
         
         return
         
-        
+    # Notificação de transação realizada    
     def notifycompletion(self, operation):
         print('Try to notify')
         
@@ -164,7 +165,7 @@ class View:
         
         message.showinfo(title='Operacao completada', message=info)
         
-
+    # Atualização de valores de uma ação
     def updatevalues(self, identifier, value):
         for i in range(self.g_list['id_g'].size()):
             if identifier == self.g_list['id_g'].get(i):
@@ -179,7 +180,7 @@ class View:
 		#return 'true'
 	#return 'false'
                 
-
+    # Atualiza valores das empresas
     def refreshgeral(self):
         lista = self.main.updatedlist()
         
@@ -197,8 +198,7 @@ class View:
         
         return
     
-    
-
+    # Pedido de compra ou venda a ser enviado ao Servidor
     def registeroperation(self):
         if self.c_spins['id'].get() != '' and self.c_spins['quant'].get() != 0 and self.c_spins['price'].get() != 0:
             iscompra = self.c_spins['cv'].get() == 'Compra'
@@ -210,7 +210,7 @@ class View:
             if not self.main.addoperation(operation):
                 message.showinfo(title='Operacao nao pode ser cadastrada', message='E possivel que nao haja acoes suficientes para realizar esta operacao.')
             
-
+    # Pedido de monitoramento a ser enviado ao Servidor
     def requestlistener(self):
         selected = self.g_list['id_g'].curselection()
         
@@ -240,7 +240,7 @@ class View:
             print(len(t))
             self.c_spins['id']['values'] = t
             
-    
+    # Pedido de monitoramento a ser enviado ao Servidor
     def requestlistener_(self, emp):
             
         self.c_list['id_c'].insert(tk.END, emp.ref_id)
