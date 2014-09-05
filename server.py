@@ -10,6 +10,7 @@ from model import Operacao
 
 instance = {}
 
+# Classe servidora do cliente para receber as notificações do Servidor WebService
 class Server():
     def __init__(self, main):
         self.main = main
@@ -30,7 +31,7 @@ class Server():
         print('Stop')
         
     
-
+# Classe com os caminhos que receberão as comunicações do WebService
 class Handler(server_http.BaseHTTPRequestHandler):
     def parse_POST(self):
         ctype, pdict = parse_header(self.headers['content-type'])

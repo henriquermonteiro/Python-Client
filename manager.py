@@ -1,5 +1,6 @@
 import model
 
+# Controladora das empresas do cliente
 class DataManager:
     def __init__(self):
         self.companies = {}

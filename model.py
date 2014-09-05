@@ -1,3 +1,4 @@
+# Bean Empresa
 class Empresa:
     def __init__(self, name, id_string, price = 0, quantity = 0):
         self.name = name
@@ -39,7 +40,8 @@ class Empresa:
         enc = '<empresa><name>' + self.name + '</name><ID>' + self.ref_id + '</ID><value>' + str(self.price) + '</value></empresa>'
         
         return enc
-        
+
+# Bean Operação        
 class Operacao:
     def __init__(self, id_string, compra, desiredprice, desiredquantity, ip = "127.0.0.1", port = 8080):
         self.ref_id = id_string
