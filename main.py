@@ -6,6 +6,7 @@ import manager
 import comunic
 import view
 
+# Classe de inicialização da aplicação
 class Controller:
     def __init__(self):
         self.manager = manager.DataManager()
@@ -19,6 +20,7 @@ class Controller:
         self.view_.refreshgeral()
         self.view_.start()
         
+    # Adicionar ações iniciais
     def simulate(self):
         lista = self.updatedlist()
         
@@ -35,7 +37,7 @@ class Controller:
             c = c + 1
         
 
-#view chama o main para repassar para comunic
+    # Comunicar um pedido de operação para o Servidor
     def addoperation(self, operation):
         operation.ip = self.server.host
         operation.port = self.server.port
@@ -46,7 +48,8 @@ class Controller:
         _thread.start_new_thread(self.comunic.request_addoperation , (operation, ))
         
         return True
-
+    
+    # Comunicar que deseja receber atualizações de uma empresa
     def listento(self, identifier):
         emp = self.manager.getcompanie_id(identifier)
         if(emp is None):
@@ -59,14 +62,17 @@ class Controller:
         print(identifier)
         return emp
 
+    # Comunicar um pedido de lista das empresas do Servidor
     def updatedlist(self):
         return self.comunic.request_companieslist()
 
+    # Recebe notificação de mudança no valor de uma ação ouvida
     def notifyupdate(self, identifier, value):
         print(identifier + " updated!!")
         self.manager.getcompanie_id(identifier).price = value
         self.view_.updatevalues(identifier, value)
 
+    # Recebe notificação da transação efetuada
     def notifycompletion(self, operation):
         print('Notify completion')
         
@@ -78,14 +84,7 @@ class Controller:
         self.view_.notifycompletion(operation)
         
         print(self.manager.getcompanie_id(operation.ref_id).quantity)
-
     
-
-#Sei la ....
-#    def updateview(self):
-
-
-#Comunic chama o main para repassar para a view
-    
+# Inicialização da aplicação
 if __name__ == "__main__":
     Controller()

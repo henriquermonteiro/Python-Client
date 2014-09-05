@@ -3,6 +3,7 @@ import main
 import tkinter as tk
 import tkinter.messagebox as message
 
+# Classe da interface gráfica
 class View:
         
     def __init__(self, main):
@@ -30,15 +31,17 @@ class View:
     def start(self):
         self.window.mainloop()
     
+    # Acesso a aba Geral
     def modegeral(self):
         self.carteira.grid_forget()
         self.geral.grid(row=1, column=0, rowspan=7, columnspan=5, sticky = tk.N+tk.S+tk.W+tk.E)
         
+    # Acesso a aba Carteira
     def modecarteira(self):
         self.geral.grid_forget()
         self.carteira.grid(row=1, column=0, rowspan=7, columnspan=5, sticky = tk.N+tk.S+tk.W+tk.E)
         
-
+    # 
     def buildgeral(self):
         geral = tk.Frame(self.window)
         
