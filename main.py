@@ -6,7 +6,7 @@ import manager
 import comunic
 import view
 
-# Classe de inicialização da aplicação
+# Classe de inicializacao da aplicacao
 class Controller:
     def __init__(self):
         self.manager = manager.DataManager()
@@ -20,7 +20,7 @@ class Controller:
         self.view_.refreshgeral()
         self.view_.start()
         
-    # Adicionar ações iniciais
+    # Adicionar acoes iniciais
     # Uma quantidade randomica eh gerada
     def simulate(self):
         lista = self.updatedlist()
@@ -38,7 +38,7 @@ class Controller:
             c = c + 1
         
 
-    # Comunicar um pedido de operação para o Servidor
+    # Comunicar um pedido de operacao para o Servidor
     # operation: Objeto Operacao criado na View
     def addoperation(self, operation):
         operation.ip = self.server.host
@@ -51,7 +51,7 @@ class Controller:
         
         return True
     
-    # Comunicar que deseja receber atualizações de uma empresa
+    # Comunicar que deseja receber atualizacoes de uma empresa
     def listento(self, identifier):
         emp = self.manager.getcompanie_id(identifier)
         if(emp is None):
@@ -68,13 +68,13 @@ class Controller:
     def updatedlist(self):
         return self.comunic.request_companieslist()
 
-    # Recebe notificação de mudança no valor de uma ação ouvida
+    # Recebe notificacao de mudanca no valor de uma acao ouvida
     def notifyupdate(self, identifier, value):
         print(identifier + " updated!!")
         self.manager.getcompanie_id(identifier).price = value
         self.view_.updatevalues(identifier, value)
 
-    # Recebe notificação da transação efetuada
+    # Recebe notificacao da transacao efetuada
     def notifycompletion(self, operation):
         print('Notify completion')
         
@@ -87,6 +87,6 @@ class Controller:
         
         print(self.manager.getcompanie_id(operation.ref_id).quantity)
     
-# Inicialização da aplicação
+# Inicializacao da aplicacao
 if __name__ == "__main__":
     Controller()
