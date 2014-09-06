@@ -25,6 +25,8 @@ class Server():
         print(self.httpd.server_address[1])
         
         _thread.start_new_thread(self.start, ())
+        
+    # Inicializacao do Servidor
     def start(self):
         print('Will call')
         self.httpd.serve_forever()
@@ -44,6 +46,8 @@ class Handler(server_http.BaseHTTPRequestHandler):
             postvars = {}
         return postvars
     
+    # /update/   : recebimento de atualizacoes dos valores das acoes de uma empresa
+    # /complete/ : recebimento da confirmacao de negociacao das acoes de determinada empresa
     def do_POST(self):
         print('Call Post')
  #       variables = self.parse_POST()

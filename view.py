@@ -60,8 +60,6 @@ class View:
         g_list_price = tk.Listbox(listframe, yscrollcommand=g_scroll.set, selectmode=tk.SINGLE)
         g_list_price.grid(row=0, column=2, sticky=tk.N+tk.S+tk.E+tk.W)
 
-#        g_scroll.config(command=listframe.yview)
-
         g_listen = tk.Button(geral)
         g_listen.pack(side=tk.BOTTOM)
         g_listen['text'] = 'Monitorar'
@@ -109,8 +107,6 @@ class View:
         c_list_quant = tk.Listbox(listframe, yscrollcommand=c_scroll.set, selectmode=tk.SINGLE)
         c_list_quant.grid(row=0, column=3, sticky=tk.N+tk.S+tk.E+tk.W)
         
-#        c_scroll.config(command=listframe.yview)
-
         c_spins = {}
         c_spins['id'] = tk.Spinbox(carteira)
         c_spins['id'].grid(row=6, column=1, sticky = tk.N+tk.S+tk.W+tk.E)
@@ -142,6 +138,7 @@ class View:
         return
         
     # Notificação de transação realizada    
+    # Lancamento de uma pop-up com a negociacao
     def notifycompletion(self, operation):
         print('Try to notify')
         
@@ -166,6 +163,7 @@ class View:
         message.showinfo(title='Operacao completada', message=info)
         
     # Atualização de valores de uma ação
+    # Valores das tabelas da View
     def updatevalues(self, identifier, value):
         for i in range(self.g_list['id_g'].size()):
             if identifier == self.g_list['id_g'].get(i):
@@ -177,8 +175,6 @@ class View:
             if identifier == self.c_list['id_c'].get(i):
                 self.c_list['price_c'].delete(i)
                 self.c_list['price_c'].insert(i, value)
-		#return 'true'
-	#return 'false'
                 
     # Atualiza valores das empresas
     def refreshgeral(self):
@@ -199,6 +195,7 @@ class View:
         return
     
     # Pedido de compra ou venda a ser enviado ao Servidor
+    # Construcao do Objeto Operacao
     def registeroperation(self):
         if self.c_spins['id'].get() != '' and self.c_spins['quant'].get() != 0 and self.c_spins['price'].get() != 0:
             iscompra = self.c_spins['cv'].get() == 'Compra'

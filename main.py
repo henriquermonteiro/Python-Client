@@ -21,6 +21,7 @@ class Controller:
         self.view_.start()
         
     # Adicionar ações iniciais
+    # Uma quantidade randomica eh gerada
     def simulate(self):
         lista = self.updatedlist()
         
@@ -38,6 +39,7 @@ class Controller:
         
 
     # Comunicar um pedido de operação para o Servidor
+    # operation: Objeto Operacao criado na View
     def addoperation(self, operation):
         operation.ip = self.server.host
         operation.port = self.server.port

@@ -14,6 +14,7 @@ class Comunicacao:
         self.url = self.host+self.path
 
     # Envio de requisição de transação
+    # operation: Objeto operacao construida
     def request_addoperation(self, operation):
      
         ur = self.url + 'registrar'
@@ -30,7 +31,8 @@ class Comunicacao:
         
         print(run.status)
             
-    # Envio de requisição de recuperação dos dados de uma empresa        
+    # Envio de requisição de recuperação dos dados de uma empresa   
+    # ide: identificador da empresa
     def getcompany_id(self, ide):
         url = self.url + ide
         response = urllib2.urlopen(url)
@@ -64,6 +66,7 @@ class Comunicacao:
         return None
         
     # Envio de requisição de todas as empresas
+    # Recebe a lista de empresas do Servidor
     def request_companieslist(self):
         url = self.url + 'lista'
         response = urllib2.urlopen(url)
@@ -102,6 +105,7 @@ class Comunicacao:
         return {}
 
     # Envio de requisição de monitoramento dos valores das ações de uma empresa
+    # Parametros: objeto empresa, numero do ip e da porta
     def request_listento(self, empresa, ip, port):
         ur = self.url + 'escutar'
         
@@ -111,7 +115,6 @@ class Comunicacao:
         headers = {"Content-type": "application/xml"}
         conn.request("POST", self.path+'escutar', XML, headers)
         print(XML)
-       # conn.send(bytes(XML, 'UTF-8'))
         
         run = conn.getresponse()
         
